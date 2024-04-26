@@ -9,6 +9,7 @@ import {
   Button,
   useDisclosure,
   useToast,
+  Tooltip,
 } from '@chakra-ui/react';
 import { Favorite, RateReview, ShoppingCart } from '@mui/icons-material';
 
@@ -121,140 +122,130 @@ const ProductsCard = ({ productId, isDelivered }) => {
     <>
       <Box
         width="100%"
-        height="40%"
+        height="100%"
         display="flex"
-        alignItems="center"
         flexDirection="column"
-        cursor="pointer"
-        mt={{ base: 3, sm: 0 }}
-        mx={{ base: 0, md: 2 }}
+        justifyContent="space-between"
+        position="relative"
+        border="1px solid #e2e8f0"
+        borderRadius="md"
+        overflow="hidden"
+        transition="0.3s"
+        _hover={{
+          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+          borderColor: 'gray.300',
+        }}
       >
-        <Image
-          width="100%"
-          height="auto"
-          maxWidth={500}
-          objectFit="cover"
-          maxHeight={620}
-          src={product.imageUrl}
-          onClick={() =>
-            navigate(`/product/${product._id}`, {
-              state: { productId: product._id },
-            })
-          }
-        />
-        <Box
-          px={3}
-          py={5}
-          bg="#fff"
-          position="relative"
-          width="100%"
-          height={230}
-          maxWidth={500}
-        >
-          <Text
-            onClick={() =>
-              navigate(`/product/${product._id}`, {
-                state: { productId: product._id },
-              })
-            }
-            fontWeight={500}
-            fontSize={26}
-          >
-            {product.name}
-          </Text>
-          <Text
-            onClick={() =>
-              navigate(`/product/${product._id}`, {
-                state: { productId: product._id },
-              })
-            }
-            mb={10}
-            fontSize={16}
-          >
-            {product.description}
-          </Text>
-          <Box
-            mt={5}
-            py={3}
-            position="absolute"
-            bottom="0px"
-            display="flex"
-            width="100%"
-            justifyContent="space-between"
-            pr={5}
-            pl={2}
-          >
-            <Text
-              onClick={() =>
-                navigate(`/product/${product._id}`, {
-                  state: { productId: product._id },
-                })
-              }
-              fontSize={18}
-              fontWeight={500}
-              display="flex"
-              alignItems="center"
-              textAlign="center"
-              backgroundColor="#385898"
-              color="white"
-              paddingLeft="17px"
-              paddingRight="17px"
-              borderRadius="15px"
-            >
-              {product.price} $
-            </Text>
-            <Box display="flex" alignItems="center" margin="right">
-              {inCart ? (
-                <>
-                  <Button
-                    onClick={onClickRemoveCart}
-                    disabled={amount === 0}
-                    colorScheme="facebook"
-                  >
-                    -
-                  </Button>
-                  <Text fontSize={25} px={2}>
-                    {amount}
-                  </Text>
-                  <Button onClick={onClickAddCart} colorScheme="facebook">
-                    +
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Icon
-                    onClick={onClickFavorite}
-                    as={Favorite}
-                    fontSize={36}
-                    transition={0.5}
-                    color={!isFavorite ? 'blackAlpha.400' : 'facebook.500'}
-                    _hover={{ color: 'facebook.500' }}
-                  />
-                  <Icon
-                    onClick={onClickAddCart}
-                    as={ShoppingCart}
-                    fontSize={36}
-                    transition={0.5}
-                    color="blackAlpha.400"
-                    _hover={{ color: 'facebook.500' }}
-                    ms={{ base: 2, md: 5 }}
-                  />
-                </>
-              )}
-              {isDelivered && (
-                <Icon
-                  onClick={onOpen}
-                  as={RateReview}
-                  fontSize={36}
-                  transition={0.5}
-                  color="blackAlpha.400"
-                  _hover={{ color: 'facebook.500' }}
-                  ms={{ base: 2, md: 5 }}
-                />
-              )}
+        <Tooltip
+          label={
+            <Box>
+              <Text
+                fontWeight={500}
+                fontSize={20}
+                mb={2}
+                color="#0c14e3"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                {product.name}
+              </Text>
+              <Text fontSize={14} mb={3}>
+                {product.description}
+              </Text>
+              <Text
+                fontWeight={500}
+                fontSize={18}
+                backgroundColor="#eeae22"
+                display="flex"
+                justifyContent="center"
+                borderRadius="20px"
+                alignItems="center"
+                padding={2}
+              >
+                {product.price} $
+              </Text>
             </Box>
-          </Box>
+          }
+          aria-label="product-info"
+          bg="#d2d9d7"
+          color="black"
+          placement="bottom-start"
+          padding={4}
+          borderRadius={3}
+        >
+          <Image
+            width="100%"
+            height="auto"
+            objectFit="cover"
+            src={product.imageUrl}
+            cursor="pointer"
+            onClick={() =>
+              navigate(`/product/${product._id}`, {
+                state: { productId: product._id },
+              })
+            }
+          />
+        </Tooltip>
+        <Box
+          px={4}
+          py={3}
+          borderTop="1px solid #e2e8f0"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Tooltip
+            label="Add to Favorites"
+            aria-label="add-to-favorites"
+            bg="white"
+            color="black"
+            placement="top"
+          >
+            <Icon
+              as={Favorite}
+              fontSize={24}
+              color={!isFavorite ? 'blackAlpha.400' : 'facebook.500'}
+              _hover={{ color: 'facebook.500' }}
+              cursor="pointer"
+              onClick={onClickFavorite}
+            />
+          </Tooltip>
+          <Tooltip
+            label="Add to Cart"
+            aria-label="add-to-cart"
+            bg="white"
+            color="black"
+            placement="top"
+          >
+            <Icon
+              as={ShoppingCart}
+              fontSize={24}
+              color="blackAlpha.400"
+              _hover={{ color: 'facebook.500' }}
+              cursor="pointer"
+              onClick={onClickAddCart}
+            />
+          </Tooltip>
         </Box>
+        {isDelivered && (
+          <Tooltip
+            label="Write a Review"
+            aria-label="write-a-review"
+            bg="white"
+            color="black"
+            placement="top"
+          >
+            <Icon
+              as={RateReview}
+              fontSize={24}
+              color="blackAlpha.400"
+              _hover={{ color: 'facebook.500' }}
+              cursor="pointer"
+              onClick={onOpen}
+            />
+          </Tooltip>
+        )}
       </Box>
       <ReviewModal isOpen={isOpen} onClose={onClose} productId={productId} />
     </>
