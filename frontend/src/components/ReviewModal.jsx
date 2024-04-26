@@ -45,7 +45,7 @@ const ReviewModal = ({ onClose, isOpen, productId }) => {
         setComment(result.comment.comment);
       });
     }
-  }, [ratingId, commentId, rating]);
+  }, [ratingId, commentId]);
 
   const onClickSend = () => {
     addRating(productId, rating, currentUser).then((result) => {

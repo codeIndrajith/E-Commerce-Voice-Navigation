@@ -12,14 +12,12 @@ const Comment = ({ authorId, commentText, createdAt }) => {
   const [ratingsByAuthor, setRatingByAuthor] = useState(0);
 
   useEffect(() => {
-    console.log(authorId);
     setAuthor(name);
     getRatingByOwnerId(authorId)
       .then((result) => {
         setRatingByAuthor(result.ratings[0].rating || 0);
       })
       .catch((err) => console.log(err));
-    console.log(ratingsByAuthor);
   }, [name, authorId]);
 
   return (

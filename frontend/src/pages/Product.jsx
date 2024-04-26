@@ -160,7 +160,7 @@ const Product = () => {
     } else {
       toast({
         title: 'Error!',
-        description: 'You must have this to write a review.',
+        description: 'You need to purchase this to write a review.',
         status: 'error',
         duration: 2000,
         isClosable: true,

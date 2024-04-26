@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Table,
@@ -14,47 +14,63 @@ import {
   Text,
   Heading,
   useDisclosure,
-} from "@chakra-ui/react";
-import { Delete, Edit } from "@mui/icons-material";
-import { useUserContext } from "../contexts/UserContext";
-import ReviewModal from "../components/ReviewModal";
-import { deleteRating, getUserData } from "../services/RatingServices";
-import StarRatings from "react-star-ratings";
+} from '@chakra-ui/react';
+import { Edit } from '@mui/icons-material';
+import { useUserContext } from '../contexts/UserContext';
+import ReviewModal from '../components/ReviewModal';
+import { getUserData } from '../services/RatingServices';
+// import { deleteComment } from '../services/CommentServices';
+import StarRatings from 'react-star-ratings';
 
 const Reviews = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [ratings, setRatings] = useState([]);
-  const [prodID, setProdID] = useState("");
+  const [prodID, setProdID] = useState('');
   const { currentUser } = useUserContext();
   const toast = useToast();
 
   useEffect(() => {
-    getUserData(currentUser).then((result) => {
-      setRatings(result.ratings);
-    });
+    getUserData(currentUser)
+      .then((result) => {
+        setRatings(result.ratings);
+      })
+      .catch((err) => console.log(err));
   }, [currentUser]);
 
-  const onClickDelete = (id) => {
-    deleteRating(id).then((result) => {
-      if (result.status) {
-        toast({
-          title: "Error!",
-          description: "Somethings went wrong.",
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: "Deleted!",
-          description: "Product succesfully deleted.",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        });
-      }
-    });
-  };
+  // const onClickDelete = (id) => {
+  //   deleteRating(id).then((result) => {
+  //     if (result.status) {
+  //       toast({
+  //         title: 'Error!',
+  //         description: 'Somethings went wrong.',
+  //         status: 'error',
+  //         duration: 2000,
+  //         isClosable: true,
+  //       });
+  //     } else {
+  //       deleteComment(id).then((result) => {
+  //         if (result.status) {
+  //           toast({
+  //             title: 'Error!',
+  //             description: 'Somethings went wrong.',
+  //             status: 'error',
+  //             duration: 2000,
+  //             isClosable: true,
+  //           });
+  //         } else {
+  //           toast({
+  //             title: 'Success!',
+  //             description: 'Your review was deleted.',
+  //             status: 'success',
+  //             duration: 2000,
+  //             isClosable: true,
+  //           });
+  //           onClose(true);
+  //         }
+  //       });
+  //     }
+  //   });
+  // };
 
   const onClickEdit = (id) => {
     setProdID(id);
@@ -88,8 +104,8 @@ const Reviews = () => {
                   <Td>{rating.for.description}</Td>
                   <Td>
                     <StarRatings
-                      starDimension={"20"}
-                      starSpacing={"2"}
+                      starDimension={'20'}
+                      starSpacing={'2'}
                       rating={rating.rating}
                       starRatedColor="#FFD700"
                       numberOfStars={5}
@@ -103,12 +119,12 @@ const Reviews = () => {
                     >
                       <Edit />
                     </Button>
-                    <Button
+                    {/* <Button
                       onClick={() => onClickDelete(rating._id)}
                       colorScheme="red"
                     >
                       <Delete />
-                    </Button>
+                    </Button> */}
                   </Td>
                 </Tr>
               ))}
