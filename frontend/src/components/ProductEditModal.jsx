@@ -253,7 +253,7 @@ const ProductEditModal = ({ isOpen, onClose, isEdit, currentId }) => {
             {touched.category && (
               <p className="error-message">{errors.category}</p>
             )}
-            <Select
+            {/* <Select
               mt={3}
               name="color"
               placeholder="Color"
@@ -267,8 +267,8 @@ const ProductEditModal = ({ isOpen, onClose, isEdit, currentId }) => {
               <option value="black">Black</option>
               <option value="red">Red</option>
             </Select>
-            {touched.color && <p className="error-message">{errors.color}</p>}
-            <Select
+            {touched.color && <p className="error-message">{errors.color}</p>} */}
+            {/* <Select
               mt={3}
               name="condition"
               placeholder="Condition"
@@ -281,7 +281,7 @@ const ProductEditModal = ({ isOpen, onClose, isEdit, currentId }) => {
             </Select>
             {touched.condition && (
               <p className="error-message">{errors.condition}</p>
-            )}
+            )} */}
             <Input
               mt={3}
               placeholder="Price"

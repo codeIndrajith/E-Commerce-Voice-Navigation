@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -7,20 +7,20 @@ import {
   SimpleGrid,
   useToast,
   useDisclosure,
-} from '@chakra-ui/react';
-import { Cancel, Error } from '@mui/icons-material';
-import moment from 'moment';
+} from "@chakra-ui/react";
+import { Cancel, Error } from "@mui/icons-material";
+import moment from "moment";
 
-import { getOrderById, updateOrderStatus } from '../services/OrderServices';
-import ProductsCard from './ProductsCard';
-import ReportModal from './ReportModal';
+import { getOrderById, updateOrderStatus } from "../services/OrderServices";
+import ProductsCard from "./ProductsCard";
+import ReportModal from "./ReportModal";
 
 const OrderCard = ({ orderId }) => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [products, setProducts] = useState([]);
-  const [orderStatus, setOrderStatus] = useState('');
-  const [date, setDate] = useState('');
+  const [orderStatus, setOrderStatus] = useState("");
+  const [date, setDate] = useState("");
 
   useEffect(() => {
     getOrderById(orderId)
@@ -28,55 +28,55 @@ const OrderCard = ({ orderId }) => {
         setProducts(result.order.products);
         setDate(result.order.orderDate);
         if (result.order.prepare) {
-          setOrderStatus('Order is preparing.');
+          setOrderStatus("Order is preparing.");
         } else if (result.order.onWay) {
-          setOrderStatus('Order is on way.');
+          setOrderStatus("Order is on way.");
         } else if (result.order.delivered) {
-          setOrderStatus('Order has been delivered.');
+          setOrderStatus("Order has been delivered.");
         } else {
-          setOrderStatus('Order canceled.');
+          setOrderStatus("Order canceled.");
         }
       })
       .catch((err) => console.log(`Error get orders : ${err}`));
   }, [orderId]);
 
   const onClickCancel = () => {
-    if (orderStatus === 'Order is preparing.') {
+    if (orderStatus === "Order is preparing.") {
       updateOrderStatus(orderId, false, false, false, false, true).then(
         (result) => {
           if (result.status) {
             toast({
-              title: 'Error!',
-              description: 'Somethings went wrong.',
-              status: 'error',
+              title: "Error!",
+              description: "Somethings went wrong.",
+              status: "error",
               duration: 2000,
               isClosable: true,
             });
           } else {
-            setOrderStatus('Order canceled.');
+            setOrderStatus("Order canceled.");
             toast({
-              title: 'Succesful',
-              description: 'Your order has been successfully canceled.',
-              status: 'success',
+              title: "Succesful",
+              description: "Your order has been successfully canceled.",
+              status: "success",
               duration: 2000,
               isClosable: true,
             });
           }
         }
       );
-    } else if (orderStatus === 'Order canceled.') {
+    } else if (orderStatus === "Order canceled.") {
       toast({
-        title: 'Error!',
-        description: 'Order has already been canceled.',
-        status: 'error',
+        title: "Error!",
+        description: "Order has already been canceled.",
+        status: "error",
         duration: 2000,
         isClosable: true,
       });
     } else {
       toast({
-        title: 'Sorry, your order is already on its way.',
-        description: 'You can only cancel the order during preparation.',
-        status: 'error',
+        title: "Sorry, your order is already on its way.",
+        description: "You can only cancel the order during preparation.",
+        status: "error",
         duration: 2000,
         isClosable: true,
       });
@@ -89,7 +89,7 @@ const OrderCard = ({ orderId }) => {
         <Box
           display="flex"
           justifyContent="space-around"
-          flexDirection={{ base: 'column', sm: 'row' }}
+          flexDirection={{ base: "column", sm: "row" }}
         >
           <Text fontSize={20} p={2} fontWeight={400} color="facebook.500">
             Order Id : {orderId}
@@ -98,14 +98,14 @@ const OrderCard = ({ orderId }) => {
             Status : {orderStatus}
           </Text>
           <Text fontSize={20} p={2} fontWeight={400} color="facebook.500">
-            Order Date : {moment(date).format('DD.MM.YY - hh:mm A')}
+            Order Date : {moment(date).format("DD.MM.YY - hh:mm A")}
           </Text>
-          {orderStatus === 'Order has been delivered.' ? (
+          {orderStatus === "Order has been delivered." ? (
             <Button onClick={onOpen} my={2} colorScheme="facebook">
               Report Order <Error sx={{ ml: 2 }} />
             </Button>
           ) : (
-            orderStatus !== 'Order canceled.' && (
+            orderStatus !== "Order canceled." && (
               <Button onClick={onClickCancel} my={2} colorScheme="facebook">
                 Cancel Order
                 <Cancel sx={{ ml: 2 }} />
@@ -126,7 +126,7 @@ const OrderCard = ({ orderId }) => {
                   <ProductsCard
                     key={index}
                     productId={product.id}
-                    isDelivered={orderStatus === 'Order has been delivered.'}
+                    isDelivered={orderStatus === "Order has been delivered."}
                   />
                 )
               );
