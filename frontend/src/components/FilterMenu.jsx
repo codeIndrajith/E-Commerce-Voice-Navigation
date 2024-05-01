@@ -146,7 +146,7 @@ const FilterMenu = ({ openFilter, setProducts, setSortBy }) => {
             </Box>
             <Divider mb={3} />
           </Box>
-          <Box mt={3}>
+          {/* <Box mt={3}>
             <Text fontSize={20} mb={3} fontWeight={500}>
               Condition
             </Text>
@@ -169,7 +169,7 @@ const FilterMenu = ({ openFilter, setProducts, setSortBy }) => {
               </Radio>
             </RadioGroup>
             <Divider my={3} />
-          </Box>
+          </Box> */}
           <Box display="flex" flexDirection="column">
             <Text fontSize={20} mb={3} fontWeight={500}>
               Shiping Location
