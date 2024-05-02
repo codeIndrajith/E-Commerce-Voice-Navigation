@@ -11,7 +11,6 @@ import {
   IconButton,
   useDisclosure,
   useToast,
-  background,
 } from '@chakra-ui/react';
 import { Favorite, FavoriteBorder, Info } from '@mui/icons-material';
 import StarRatings from 'react-star-ratings';
@@ -29,6 +28,16 @@ import { getRatingByOwnerId } from '../services/RatingServices';
 import useGetUserHaveThis from '../hooks/useGetUserHaveThis';
 import { getOrdersByUserId } from '../services/OrderServices';
 import Voice from '../components/Voice';
+import { RelatedProducts, useRecommendations } from '@algolia/recommend-react';
+import recommend from '@algolia/recommend';
+import ProductsCard from '../components/ProductsCard';
+
+const recommendClient = recommend(
+  'XXBHHDNRWO',
+  'aabbdcbe856c4e7297a648a06abb42f9'
+);
+
+const indexName = 'vcart';
 
 const Product = () => {
   const toast = useToast();
@@ -48,6 +57,14 @@ const Product = () => {
   const [amount, setAmount] = useState(0);
   const [cookies, setCookie, removeCookie] = useCookies(['cart']);
   const [have] = useGetUserHaveThis(currentUser, location.state.productId);
+
+  const { recommendations } = useRecommendations({
+    model: 'related-products',
+    recommendClient,
+    indexName,
+    objectIDs: [location.state.productId],
+    maxRecommendations: 8,
+  });
 
   useEffect(() => {
     setIsFavorite(status);
@@ -83,7 +100,7 @@ const Product = () => {
         setAmount(item.amount);
       }
     });
-  }, [location.state.productId, status, cart]);
+  }, [location.state.productId, status, cart, recommendations]);
 
   const onClickFavorite = () => {
     if (isFavorite) {
@@ -160,7 +177,7 @@ const Product = () => {
     } else {
       toast({
         title: 'Error!',
-        description: 'You need to purchase this to write a review.',
+        description: 'You must have this to write a review.',
         status: 'error',
         duration: 2000,
         isClosable: true,
@@ -385,7 +402,18 @@ const Product = () => {
             })}
           </div>
         </Box>
+        <Text mt={10} mb={3} fontSize={40} fontWeight={300}>
+          Frequently Bought Together
+        </Text>
+
+        <SimpleGrid minChildWidth={280} gap={3} spacingX={5}>
+          {recommendations &&
+            recommendations.map((product, index) => {
+              return <ProductsCard key={index} productId={product.objectID} />;
+            })}
+        </SimpleGrid>
       </Box>
+
       <ReviewModal
         isOpen={isOpen}
         onClose={onClose}

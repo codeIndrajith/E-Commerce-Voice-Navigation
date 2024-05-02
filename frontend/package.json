@@ -3,6 +3,8 @@
     "version": "1.0.0",
     "private": true,
     "dependencies": {
+        "@algolia/recommend": "^4.23.3",
+        "@algolia/recommend-react": "^1.14.0",
         "@chakra-ui/react": "^2.8.2",
         "@emotion/react": "^11.11.4",
         "@emotion/styled": "^11.11.0",

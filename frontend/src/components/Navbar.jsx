@@ -114,7 +114,7 @@ const Navbar = () => {
     <Box
       display="flex"
       flexDirection="column"
-      // boxShadow="rgba(0, 0, 0, 0.24) 0px 3px 8px"
+      boxShadow="rgba(0, 0, 0, 0.24) 0px 3px 8px"
       position="sticky"
       top="0px"
       backgroundColor="#DED7CF"

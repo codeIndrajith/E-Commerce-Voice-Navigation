@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Box,
   Flex,
@@ -9,16 +9,26 @@ import {
   Image,
   CircularProgress,
   Button,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
-import Carousel from '../components/Carousel';
-import { useSearchContext } from '../contexts/SearchContext';
-import { getAllMiniImages } from '../services/ImageServices';
-import searchItemIcon from '../assets/searchItem.png';
-import saveMoneyIcon from '../assets/saveMoney.png';
-import saveTimeIcon from '../assets/saveTime.png';
+import Carousel from "../components/Carousel";
+import { useSearchContext } from "../contexts/SearchContext";
+import { getAllMiniImages } from "../services/ImageServices";
+import searchItemIcon from "../assets/searchItem.png";
+import saveMoneyIcon from "../assets/saveMoney.png";
+import saveTimeIcon from "../assets/saveTime.png";
 
-import Voice from '../components/Voice';
+import Voice from "../components/Voice";
+import recommend from "@algolia/recommend";
+import { useTrendingItems } from "@algolia/recommend-react";
+import ProductsCard from "../components/ProductsCard";
+
+const recommendClient = recommend(
+  "XXBHHDNRWO",
+  "aabbdcbe856c4e7297a648a06abb42f9"
+);
+
+const indexName = "vcart";
 
 const Home = () => {
   useEffect(() => {
@@ -30,9 +40,14 @@ const Home = () => {
   const { setSearch } = useSearchContext();
   const [miniImages, setMiniImages] = useState([]);
 
+  const { recommendations } = useTrendingItems({
+    recommendClient,
+    indexName,
+  });
+
   const onClickImage = () => {
-    setSearch('a');
-    navigate('/search');
+    setSearch("a");
+    navigate("/search");
   };
 
   return (
@@ -46,7 +61,7 @@ const Home = () => {
       </Flex>
 
       <Text
-        fontSize={{ base: '3xl', md: '4xl' }}
+        fontSize={{ base: "3xl", md: "4xl" }}
         fontWeight="bold"
         mb={4}
         color="green.800"
@@ -61,10 +76,10 @@ const Home = () => {
       <Box bg="blue.100" py={8} textAlign="center">
         <Box
           display="flex"
-          flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
+          flexDirection={{ base: "column", md: "column", lg: "row" }}
           justifyContent="center"
           alignItems="center"
-          gap={{ sm: '15px', md: '30px', lg: '80px' }}
+          gap={{ sm: "15px", md: "30px", lg: "80px" }}
           ml="30px"
         >
           <Box
@@ -74,8 +89,8 @@ const Home = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <img style={{ width: '40%' }} src={searchItemIcon} alt="" />
-            <h4 style={{ fontSize: '30px', fontWeight: '800' }}>
+            <img style={{ width: "40%" }} src={searchItemIcon} alt="" />
+            <h4 style={{ fontSize: "30px", fontWeight: "800" }}>
               Search for items
             </h4>
             <p>
@@ -90,8 +105,8 @@ const Home = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <img style={{ width: '40%' }} src={saveMoneyIcon} alt="" />
-            <h4 style={{ fontSize: '30px', fontWeight: '800' }}>
+            <img style={{ width: "40%" }} src={saveMoneyIcon} alt="" />
+            <h4 style={{ fontSize: "30px", fontWeight: "800" }}>
               Find out the best prices
             </h4>
             <p>
@@ -106,8 +121,8 @@ const Home = () => {
             justifyContent="center"
             alignItems="center"
           >
-            <img style={{ width: '40%' }} src={saveTimeIcon} alt="" />
-            <h4 style={{ fontSize: '30px', fontWeight: '800' }}>
+            <img style={{ width: "40%" }} src={saveTimeIcon} alt="" />
+            <h4 style={{ fontSize: "30px", fontWeight: "800" }}>
               Save time for money
             </h4>
             <p>
@@ -120,7 +135,7 @@ const Home = () => {
 
       <Box textAlign="center" mt="50px">
         <Text
-          fontSize={{ base: '3xl', md: '4xl' }}
+          fontSize={{ base: "3xl", md: "4xl" }}
           fontWeight="bold"
           mb={4}
           color="green.800"
@@ -130,30 +145,20 @@ const Home = () => {
           borderColor="green.500"
           pb={2}
         >
-          Our products
+          Trending Items
         </Text>
-
-        <SimpleGrid
-          columns={{ base: 1, sm: 2 }}
-          spacing={{ base: 3, md: 5 }}
-          px={{ base: 3, md: 0 }}
-          py={{ base: 3, md: 5 }}
-          mt={5}
-          maxWidth={1200}
-          mx="auto"
-        >
-          {miniImages &&
-            miniImages.map((image, index) => {
-              return (
-                <Image
-                  key={index}
-                  cursor="pointer"
-                  onClick={onClickImage}
-                  src={image.url}
-                />
-              );
-            })}
-          {miniImages.length === 0 && (
+        <Box p={{ base: 3, md: 10 }}>
+          {recommendations && (
+            <SimpleGrid minChildWidth={280} gap={3} spacingX={5}>
+              {recommendations &&
+                recommendations.map((product, index) => {
+                  return (
+                    <ProductsCard key={index} productId={product.objectID} />
+                  );
+                })}
+            </SimpleGrid>
+          )}
+          {recommendations.length === 0 && (
             <>
               <Box my={20} display="flex" justifyContent="center" width="100%">
                 <CircularProgress isIndeterminate color="facebook.500" />
@@ -163,10 +168,10 @@ const Home = () => {
               </Box>
             </>
           )}
-        </SimpleGrid>
-        <Button padding="20px" backgroundColor="skyblue">
-          <Link to="/search">Show More</Link>
-        </Button>
+          <Button padding="20px" backgroundColor="skyblue">
+            <Link to="/search">Show More</Link>
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

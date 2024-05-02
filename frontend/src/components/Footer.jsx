@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Container,
   Box,
@@ -12,7 +12,7 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   PopoverBody,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 // Import icons
 import {
@@ -21,14 +21,14 @@ import {
   FaLinkedin,
   FaQuora,
   FaTwitter,
-} from 'react-icons/fa';
+} from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <Container maxW="5xl" p={{ base: 5, md: 10 }}>
+    <Container maxW="w-full" p={{ base: 5, md: 10 }}>
       <SimpleGrid
         flexDirection="column-reverse"
-        gridTemplateColumns={['1fr', '1fr', '1fr 1fr', '1fr 1fr']}
+        gridTemplateColumns={["1fr", "1fr", "1fr 1fr", "1fr 1fr"]}
         borderTopWidth={2}
         mt="30px"
         borderTopColor="gray.900"
@@ -36,22 +36,22 @@ const Footer = () => {
       >
         <Box>
           <SimpleGrid columns={[1, 1, 3, 3, 3, 3]}>
-            <Stack mb={['10px', '10px', 0, 0]}>
-              <span style={{ color: 'gray' }}>Contact us</span>
-              <span style={{ color: 'gray' }}>Contribute</span>
-              <span style={{ color: 'gray' }}>Open source projects</span>
+            <Stack mb={["10px", "10px", 0, 0]}>
+              <span style={{ color: "gray" }}>Contact us</span>
+              <span style={{ color: "gray" }}>Contribute</span>
+              <span style={{ color: "gray" }}>Open source projects</span>
             </Stack>
             <Stack>
               <span>
                 <Popover placement="top">
                   <PopoverTrigger>
                     <span
-                      _focus={{ outline: 'none', boxShadow: 'none' }}
+                      _focus={{ outline: "none", boxShadow: "none" }}
                       fontWeight={500}
                       color="gray.500"
                       cursor="pointer"
-                      _hover={{ color: 'gray.600', textDecoration: 'none' }}
-                      style={{ color: 'gray' }}
+                      _hover={{ color: "gray.600", textDecoration: "none" }}
+                      style={{ color: "gray" }}
                     >
                       Social Accounts
                     </span>
@@ -96,30 +96,30 @@ const Footer = () => {
                 </Popover>
               </span>
 
-              <span style={{ color: 'gray' }}>Sponsor</span>
-              <span style={{ color: 'gray' }}>FAQs</span>
+              <span style={{ color: "gray" }}>Sponsor</span>
+              <span style={{ color: "gray" }}>FAQs</span>
             </Stack>
             <Stack>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 <input
                   type="email"
                   placeholder="Enter Email.."
                   style={{
-                    padding: '10px',
-                    borderRadius: '5px',
-                    border: '1px solid #ccc',
-                    marginRight: '10px',
+                    padding: "10px",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                    marginRight: "10px",
                   }}
                 />
                 <button
                   type="submit"
                   style={{
-                    padding: '10px 20px',
-                    border: 'none',
-                    borderRadius: '5px',
-                    backgroundColor: '#007bff',
-                    color: 'white',
-                    cursor: 'pointer',
+                    padding: "10px 20px",
+                    border: "none",
+                    borderRadius: "5px",
+                    backgroundColor: "#007bff",
+                    color: "white",
+                    cursor: "pointer",
                   }}
                 >
                   Subscribe
