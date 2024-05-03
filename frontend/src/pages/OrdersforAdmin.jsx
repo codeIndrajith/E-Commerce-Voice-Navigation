@@ -25,13 +25,17 @@ const OrdersforAdmin = () => {
 
   useEffect(() => {
     if (currentStatus) {
-      getOrdersByStatus(true).then((result) => {
-        setOrders(result.orders);
-      });
+      getOrdersByStatus(true)
+        .then((result) => {
+          setOrders(result.orders);
+        })
+        .catch((err) => console.log(err));
     } else {
-      getAllOrders().then((result) => {
-        setOrders(result.allOrders);
-      });
+      getAllOrders()
+        .then((result) => {
+          setOrders(result.allOrders);
+        })
+        .catch((err) => console.log(err));
     }
   }, [refresh, currentStatus]);
 

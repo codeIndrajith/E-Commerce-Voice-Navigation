@@ -38,63 +38,32 @@ const ReviewModal = ({ onClose, isOpen, productId }) => {
 
   useEffect(() => {
     if (ratingId !== '' && commentId) {
-      getRatingById(ratingId).then((result) => {
-        setRating(result.rating.rating);
-      });
-      getCommentById(commentId).then((result) => {
-        setComment(result.comment.comment);
-      });
+      getRatingById(ratingId)
+        .then((result) => {
+          setRating(result.rating.rating);
+        })
+        .catch((err) => console.log(err));
+      getCommentById(commentId)
+        .then((result) => {
+          setComment(result.comment.comment);
+        })
+        .catch((err) => console.log(err));
     }
   }, [ratingId, commentId]);
 
   const onClickSend = () => {
-    addRating(productId, rating, currentUser).then((result) => {
-      if (result.status) {
-        toast({
-          title: 'Error!',
-          description: 'Somethings went wrong.',
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      } else {
-        addComment(productId, comment, currentUser).then((result) => {
-          if (result.status) {
-            toast({
-              title: 'Error!',
-              description: 'Somethings went wrong.',
-              status: 'error',
-              duration: 2000,
-              isClosable: true,
-            });
-          } else {
-            toast({
-              title: 'Success!',
-              description: 'Your review has been sent successfully.',
-              status: 'success',
-              duration: 2000,
-              isClosable: true,
-            });
-            onClose(true);
-          }
-        });
-      }
-    });
-  };
-
-  const onClickEdit = () => {
-    updateRating(ratingId, productId, rating, currentUser).then((result) => {
-      if (result.status) {
-        toast({
-          title: 'Error!',
-          description: 'Somethings went wrong.',
-          status: 'error',
-          duration: 2000,
-          isClosable: true,
-        });
-      } else {
-        updateComment(commentId, productId, comment, currentUser).then(
-          (result) => {
+    if (comment && rating) {
+      addRating(productId, rating, currentUser).then((result) => {
+        if (result.status) {
+          toast({
+            title: 'Error!',
+            description: 'Somethings went wrong.',
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          addComment(productId, comment, currentUser).then((result) => {
             if (result.status) {
               toast({
                 title: 'Error!',
@@ -106,17 +75,72 @@ const ReviewModal = ({ onClose, isOpen, productId }) => {
             } else {
               toast({
                 title: 'Success!',
-                description: 'Your review has been updated successfully.',
+                description: 'Your review has been sent successfully.',
                 status: 'success',
                 duration: 2000,
                 isClosable: true,
               });
               onClose(true);
             }
-          }
-        );
-      }
-    });
+          });
+        }
+      });
+    } else {
+      toast({
+        title: 'Error!',
+        description: 'Add comment and rating',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const onClickEdit = () => {
+    if (comment && rating) {
+      updateRating(ratingId, productId, rating, currentUser).then((result) => {
+        if (result.status) {
+          toast({
+            title: 'Error!',
+            description: 'Somethings went wrong.',
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+          });
+        } else {
+          updateComment(commentId, productId, comment, currentUser).then(
+            (result) => {
+              if (result.status) {
+                toast({
+                  title: 'Error!',
+                  description: 'Somethings went wrong.',
+                  status: 'error',
+                  duration: 2000,
+                  isClosable: true,
+                });
+              } else {
+                toast({
+                  title: 'Success!',
+                  description: 'Your review has been updated successfully.',
+                  status: 'success',
+                  duration: 2000,
+                  isClosable: true,
+                });
+                onClose(true);
+              }
+            }
+          );
+        }
+      });
+    } else {
+      toast({
+        title: 'Error!',
+        description: 'Add comment and rating',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   const onClickDelete = () => {
