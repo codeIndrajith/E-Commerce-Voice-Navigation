@@ -326,28 +326,26 @@ const Navbar = () => {
             color="black"
             background="rgb(196,226,191) linear-gradient(90deg, rgba(196,226,191,1) 0%, rgba(244,244,244,1) 35%, rgba(119,151,157,1) 61%, rgba(241,217,130,1) 100%)"
           >
-            {isFalse && (
-              <MenuGroup>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    justifyContent: 'center',
-                    gap: '80px',
-                  }}
-                >
-                  {genres.map((genre) => {
-                    return (
-                      genre.status && (
-                        <div key={genre.name} style={{ margin: '5px' }}>
-                          <Dropdown title={genre.name} genreId={genre._id} />
-                        </div>
-                      )
-                    );
-                  })}
-                </div>
-              </MenuGroup>
-            )}
+            <MenuGroup ref={menuRef}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'center',
+                  gap: '80px',
+                }}
+              >
+                {genres.map((genre) => {
+                  return (
+                    genre.status && (
+                      <div key={genre.name} style={{ margin: '5px' }}>
+                        <Dropdown title={genre.name} genreId={genre._id} />
+                      </div>
+                    )
+                  );
+                })}
+              </div>
+            </MenuGroup>
           </MenuList>
         </Menu>
       </Box>
