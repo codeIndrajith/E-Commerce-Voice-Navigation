@@ -42,36 +42,46 @@ const Infos = () => {
 
   const onClickSave = () => {
     if (phone.length === 11) {
-      updateUser(currentUser, address, phone)
-        .then((result) => {
-          if (result.status) {
+      if (address) {
+        updateUser(currentUser, address, phone)
+          .then((result) => {
+            if (result.status) {
+              toast({
+                title: 'Error!',
+                description: 'Somethings went wrong.',
+                status: 'error',
+                duration: 2000,
+                isClosable: true,
+              });
+            } else {
+              toast({
+                title: 'Successful!',
+                description: 'Successfully saved.',
+                status: 'success',
+                duration: 2000,
+                isClosable: true,
+              });
+            }
+          })
+          .catch((err) => {
+            // console.log(`Error update information : ${err}`);
             toast({
               title: 'Error!',
-              description: 'Somethings went wrong.',
+              description: 'Error Update information',
               status: 'error',
               duration: 2000,
               isClosable: true,
             });
-          } else {
-            toast({
-              title: 'Successful!',
-              description: 'Successfully saved.',
-              status: 'success',
-              duration: 2000,
-              isClosable: true,
-            });
-          }
-        })
-        .catch((err) => {
-          // console.log(`Error update information : ${err}`);
-          toast({
-            title: 'Error!',
-            description: 'Error Update information',
-            status: 'error',
-            duration: 2000,
-            isClosable: true,
           });
+      } else {
+        toast({
+          title: 'Error!',
+          description: 'Please enter address.',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
         });
+      }
     } else {
       toast({
         title: 'Error!',
